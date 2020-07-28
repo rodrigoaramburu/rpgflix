@@ -24,6 +24,9 @@
     padding-right: 5%;
   
     background: var(--black);
+    background-image: url(../../assets/imgs/dugeon.png);
+    background-size: 100%;
+    background-position: center;
     border-bottom: 2px solid var(--primary);
   }
   body {

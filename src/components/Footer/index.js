@@ -10,7 +10,7 @@ function Footer() {
       </a>
       <p>
         Orgulhosamente criado durante a 
-        {' Rodrigo Aramburu '}
+        {'  '}
         <a href="https://www.alura.com.br/">
           Imersão React da Alura
         </a>
