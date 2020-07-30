@@ -1,29 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { VideoCardGroupContainer, Title, ExtraLink} from './styles';
 import VideoCard from './components/VideoCard';
 import Slider , {SliderItem} from './components/Slider';
 
 
+function Carousel({ ignoreFirstVideo, category, }){
 
-function Carousel({ 
-    ignoreFirstVideo,
-    category
-}){
-    const categoryTitle = category.titulo;
-    const categoryColor = category.cor 
-    const categoryExtraLink = category.link_extra;
-    const videos = category.videos;
-    return (
+  const [videos , setVideos] = useState([]);
 
+  const [loaded , setLoaded] = useState(false)
+
+    if( !loaded ){
+      fetch(`https://www.botecodigital.info/react-api/categorias/${category.channel_id}/videos`)
+        .then(res => res.json())
+        .then( (result) => {
+              setVideos(result);
+              setLoaded(true)
+          },
+          (error) => {
+            console.log(error)
+          }
+        );
+        return (<p>Carregando ...</p>);
+    }
+    
+        return (
         <VideoCardGroupContainer>
-            {categoryTitle && (
+            {category.titulo && (
             <>
-                <Title style={{ background: categoryColor || 'red' }}>
-                    {categoryTitle}     
+                <Title style={{ background: category.cor || 'red' }}>
+                    {category.titulo}     
                 </Title>
-                {categoryExtraLink && 
-                    <ExtraLink href={categoryExtraLink.url} target="_blank">
-                        {categoryExtraLink.text}
+                { category.link_extra && 
+                    <ExtraLink href={category.link_extra.url} target="_blank">
+                        {category.link_extra.text}
                     </ExtraLink>
                 }
             </>
@@ -31,7 +41,7 @@ function Carousel({
 
         <Slider>
             {videos.map( ( video, index )  => {
-                if( ignoreFirstVideo && index == 0 ){
+                if( ignoreFirstVideo && index === 0 ){
                     return null;
                 }
                 
@@ -40,7 +50,7 @@ function Carousel({
                         <VideoCard
                             videoTitle={video.titulo}
                             videoURL={video.url}
-                            categoryColor={categoryColor}
+                            categoryColor={category.cor}
                         />
                     </SliderItem>
                 );            

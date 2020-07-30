@@ -1,23 +1,34 @@
 import React from 'react' ;
 import Logo from  '../../assets/imgs/logo.png';
-import './Menu.css'
-import Button from '../Button'
-
+import './Menu.css';
+import Button from '../Button';
+import {Link, useLocation} from 'react-router-dom';
 
 function Menu() {
-    return (
-        <nav className="Menu">
-            <a href="/">
-                <img src={Logo} className="Logo" alt="Aluraflix" />
-            </a>
+    let location = useLocation();
+    if( location.pathname !== '/cadastro/canal'){
+        return (
+            <nav className="Menu">
+                <Link to="/">
+                    <img src={Logo} className="Logo" alt="Aluraflix" />
+                </Link>
 
-            <Button as="a" href="/" className="ButtonLink">
-                Novo Vídeo
-            </Button>
+                <Button as={Link} to="/cadastro/canal" className="ButtonLink" >
+                    Novo Canal
+                </Button>
 
-            
-        </nav>
-    );
+                
+            </nav>
+        );
+    }else{
+        return (
+            <nav className="Menu">
+                <Link to="/">
+                    <img src={Logo} className="Logo" alt="Aluraflix" />
+                </Link>
+            </nav>
+        );
+    }
 }
 
 
