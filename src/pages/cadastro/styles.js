@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TableContainer = styled.div`
     overflow-x:auto;
@@ -31,5 +31,3 @@ export const TableContent = styled.td`
     padding:10px;
     
 `;
-
-

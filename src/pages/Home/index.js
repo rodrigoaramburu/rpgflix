@@ -1,51 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAlert } from 'react-alert';
 import Menu from '../../components/Menu';
 import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
 import Footer from '../../components/Footer';
 
-function Home(){
+function Home() {
+  const [canais, setCanais] = useState([]);
 
-  const [categorias,setCategorias] = useState([])
-  const [loaded, setLoaded] = useState(false)
+  const alert = useAlert();
 
+  useEffect(() => {
+    fetch('https://www.botecodigital.info/react-api/categorias')
+      .then(async (result) => {
+        const channels = await result.json();
+        setCanais([...channels]);
+      },
+      () => {
+        alert.show('Erro ao recuperar canais', {
+          timeout: 5000,
+          type: 'error',
+        });
+      });
+  }, []);
 
-  if( !loaded ){
-    fetch("https://www.botecodigital.info/react-api/categorias")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setCategorias( result )
-          setLoaded(true)
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    return (<p>Carregando</p>);
-  }
-  
   return (
-    <div style={{ background: "#141414" }}>
+    <div style={{ background: '#141414' }}>
       <Menu />
 
-      <BannerMain /> 
+      <BannerMain />
 
-
-      {categorias.map((value, index) => {
-          return <Carousel
-                  key={index}
-                  category={value}
-                />
-        }
-      )}
-
+      {canais.map((value) => (
+        <Carousel
+          key={`id_${value.titulo}`}
+          channel={value}
+        />
+      ))}
 
       <Footer />
 
     </div>
   );
 }
-
 
 export default Home;

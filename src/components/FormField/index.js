@@ -1,22 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
 
 const FieldContainer = styled.div`
     position: relative;
     padding-top: 20px;
     margin-top:10px;
-    
-    .input{
-        border: 0;
-        border-bottom: 2px solid #DB202C;
-        outline: none;
-        transition: .2s ease-in-out;
-        box-sizing: border-box;
-        color:#000 !important;
-    }
-
-    
+      
     .input + label{
         top: 15px;
         left: 5px; 
@@ -62,23 +52,52 @@ const FieldContainer = styled.div`
 
 `;
 
-function FormField({ value, onChange, type, name, label , className}){
+const Input = styled.input`
+  border: 0;
+  border-bottom: 2px solid #DB202C;
+  outline: none;
+  transition: .2s ease-in-out;
+  box-sizing: border-box;
+  color:#000 !important;
+`;
 
-    return (
-        <FieldContainer>
-            <input 
-                type={type}
-                name={name}
-                id={name}
-                value={value} 
-                onChange={onChange}
-                className={className}
-                pattern=".+"
-                required />  
-            <label htmlFor={name}>{label}</label>
-        </FieldContainer>
-    );
+function FormField({
+  value, onChange, type, name, label, className,
+}) {
+  const fieldId = `${name}_id`;
+  const tag = type === 'textarea' ? 'textarea' : 'input';
+
+  return (
+    <FieldContainer>
+      <Input
+        as={tag}
+        type={type}
+        name={name}
+        id={fieldId}
+        value={value}
+        onChange={onChange}
+        className={className}
+        pattern=".+"
+        required
+      />
+      <label htmlFor={fieldId}>{label}</label>
+    </FieldContainer>
+  );
 }
 
+FormField.defaultProps = {
+  type: 'text',
+  value: '',
+  onChange: () => {},
+};
+
+FormField.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
+};
 
 export default FormField;
