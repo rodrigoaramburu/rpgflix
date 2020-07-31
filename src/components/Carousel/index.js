@@ -6,37 +6,38 @@ import VideoCard from './components/VideoCard';
 import Slider, { SliderItem } from './components/Slider';
 import Carregando from '../Carregando';
 
+import channelRepository from '../../repositories/channel';
+
 function Carousel({ ignoreFirstVideo, channel }) {
   const [videos, setVideos] = useState([]);
 
   const alert = useAlert();
 
   useEffect(() => {
-    fetch(`https://www.botecodigital.info/react-api/categorias/${channel.channel_id}/videos`)
-      .then(async (result) => {
-        const vs = await result.json();
-        setVideos([...vs]);
-      },
-      () => {
-        alert.show(`Erro ao recuperar lista videos de '${channel.titulo}'`, {
+    channelRepository.getVideosByChannel(channel)
+      .then((data) => {
+        setVideos([...data]);
+      })
+      .catch((e) => {
+        alert.show(e`Erro ao recuperar lista videos de '${channel.titulo}'`, {
           timeout: 5000,
           type: 'error',
         });
       });
-  }, []);
+  }, [alert, channel]);
 
   return (
     <VideoCardGroupContainer>
-      {channel.titulo && (
+      {channel.title && (
       <>
         <Title style={{ background: channel.cor || 'red' }}>
-          {channel.titulo}
+          {channel.title}
         </Title>
 
-        { channel.link_extra
+        { channel.description
                     && (
-                    <ExtraLink href={channel.link_extra.url} target="_blank">
-                      {channel.link_extra.text}
+                    <ExtraLink href={channel.link} target="_blank">
+                      {channel.description}
                     </ExtraLink>
                     )}
       </>
@@ -53,11 +54,11 @@ function Carousel({ ignoreFirstVideo, channel }) {
           }
 
           return (
-            <SliderItem key={video.titulo}>
+            <SliderItem key={video.title}>
               <VideoCard
-                videoTitle={video.titulo}
-                videoURL={video.url}
-                categoryColor={channel.cor}
+                title={video.title}
+                videoID={video.videoID}
+                cor={channel.cor}
               />
             </SliderItem>
           );

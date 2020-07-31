@@ -1,44 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import { useAlert } from 'react-alert';
 import VideoIframeResponsive from './components/VideoIframeResponsive';
 import { BannerMainContainer, ContentAreaContainer, WatchButton } from './styles';
 
 import BannerInicial from '../../assets/imgs/banner.png';
+import channelRepository from '../../repositories/channel';
 
-function getYouTubeId(youtubeURL) {
-  return youtubeURL.replace(
-    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-    '$7',
-  );
-}
+// function getYouTubeId(youtubeURL) {
+//   return youtubeURL.replace(
+//     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+//     '$7',
+//   );
+// }
 
 function BannerMain() {
   const [bannerValores, setBannerValores] = useState({
-    videoTitle: 'Carregando ..',
-    videoDescription: 'Carregando ...',
-    url: '',
+    title: 'Carregando ..',
+    description: 'Carregando ...',
+    videoID: '',
   });
 
+  const alert = useAlert();
+
   useEffect(() => {
-    fetch('https://www.botecodigital.info/react-api/videos/last')
-      .then((res) => res)
-      .then(async (result) => {
-        const data = await result.json();
+    channelRepository.getLastVideo()
+      .then((data) => {
         setBannerValores({
-          videoTitle: data.titulo,
-          videoDescription: '',
-          url: data.url,
+          title: data.titulo,
+          description: data.description,
+          videoID: data.videoID,
         });
-      },
-      () => {
-        alert.show('Erro ao recuperar dados do banner', {
+      })
+      .catch((e) => {
+        alert.show(e.message, {
           timeout: 5000,
           type: 'error',
         });
       });
-  }, []);
+  }, [alert]);
 
-  const youTubeID = getYouTubeId(bannerValores.url);
-  const bgUrl = youTubeID === '' ? BannerInicial : `https://img.youtube.com/vi/${youTubeID}/maxresdefault.jpg`;
+  // const youTubeID = getYouTubeId();
+  const bgUrl = bannerValores.videoID === '' ? BannerInicial : `https://img.youtube.com/vi/${bannerValores.videoID}/maxresdefault.jpg`;
 
   return (
     <BannerMainContainer backgroundImage={bgUrl}>
@@ -46,17 +48,19 @@ function BannerMain() {
         <ContentAreaContainer.Item>
 
           <ContentAreaContainer.Title>
-            {bannerValores.videoTitle}
+            {bannerValores.titulo}
           </ContentAreaContainer.Title>
 
           <ContentAreaContainer.Description>
-            {bannerValores.videoDescription}
+            {bannerValores.description}
           </ContentAreaContainer.Description>
         </ContentAreaContainer.Item>
 
         <ContentAreaContainer.Item>
-          <VideoIframeResponsive youtubeID={youTubeID} />
-          <WatchButton>
+          <VideoIframeResponsive youtubeID={bannerValores.videoID} />
+          <WatchButton as="a" href={`https://www.youtube.com/watch?v=${bannerValores.videoID}`} target="_blank">
+            <i className="fab fa-youtube" />
+            {' '}
             Assistir
           </WatchButton>
         </ContentAreaContainer.Item>

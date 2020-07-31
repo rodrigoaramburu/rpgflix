@@ -14,7 +14,7 @@ function Menu() {
         </Link>
 
         <Button as={Link} to="/cadastro/canal" className="ButtonLink">
-          Novo Canal
+          Gerenciar Canais
         </Button>
 
       </nav>

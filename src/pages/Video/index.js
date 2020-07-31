@@ -5,6 +5,8 @@ import PageDefault from '../../components/PageDefault';
 import { Title } from '../../components/Carousel/styles';
 import Button from '../../components/Button';
 
+import channelRepository from '../../repositories/channel';
+
 export const VideoWrap = styled.div`
     position:relative;
     padding:0 5%;
@@ -38,18 +40,16 @@ function Video() {
   });
 
   useEffect(() => {
-    fetch(`https://www.botecodigital.info/react-api/videos/${idvideo}`)
-      .then(async (result) => {
-        const data = await result.json();
+    channelRepository.getVideo(idvideo)
+      .then((data) => {
         setVideo(data);
-      },
-      () => {
-        alert.show('Erro ao recuperar video', {
+      }).catch((e) => {
+        alert.show(e.message, {
           timeout: 5000,
           type: 'error',
         });
       });
-  }, []);
+  }, [idvideo]);
 
   return (
     <PageDefault>
@@ -62,20 +62,20 @@ function Video() {
           allowFullScreen
         />
       </VideoWrap>
-      <Title>{video.channel.title}</Title>
-      <h1>{video.titulo}</h1>
-      <Button href={video.url} as="a" target="_blank">
+      <Title style={{ background: video.channel.cor || 'red' }}>{video.channel.title}</Title>
+      <h1>{video.title}</h1>
+      <Button href={`https://www.youtube.com/watch?v=${video.videoID}`} as="a" target="_blank">
         <i className="fab fa-youtube" />
         {' '}
         Ver Video no Youtube
       </Button>
       {' '}
-      <Button href={video.channel.extra_link} as="a" target="_blank">
+      <Button href={video.channel.link} as="a" target="_blank">
         <i className="fab fa-youtube" />
         {' '}
         Ir para o Canal
       </Button>
-      <p><pre>{video.description}</pre></p>
+      <pre>{video.description}</pre>
     </PageDefault>
   );
 }

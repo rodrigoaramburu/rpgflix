@@ -73,6 +73,9 @@ export const BannerMainContainer = styled.section`
   @media (max-width: 800px) {
     height: auto;
     min-height: 50vh;
+    display:flex;
+    items-align:center;
+    justify-content:center;
   }
   &:after,
   &:before {
@@ -115,6 +118,6 @@ export const WatchButton = styled.button`
   display: none;
   margin: 0 auto;
   @media (max-width: 800px) {
-    display: block;
+    display: inline-block;
   }
 `;

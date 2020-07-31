@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAlert } from 'react-alert';
 import styled from 'styled-components';
+import { useAlert } from 'react-alert';
 import Menu from '../../components/Menu';
 import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
@@ -9,6 +9,8 @@ import Footer from '../../components/Footer';
 import Neve1 from '../../assets/imgs/s1.png';
 import Neve2 from '../../assets/imgs/s2.png';
 import Neve3 from '../../assets/imgs/s3.png';
+
+import channelRepository from '../../repositories/channel';
 
 const Main = styled.main`
     background-color: #141414;
@@ -26,22 +28,18 @@ const Main = styled.main`
 
 function Home() {
   const [canais, setCanais] = useState([]);
-
   const alert = useAlert();
-
   useEffect(() => {
-    fetch('https://www.botecodigital.info/react-api/categorias')
-      .then(async (result) => {
-        const channels = await result.json();
-        setCanais([...channels]);
-      },
-      () => {
+    channelRepository.getAllChannels()
+      .then((data) => {
+        setCanais([...data]);
+      }).catch(() => {
         alert.show('Erro ao recuperar canais', {
           timeout: 5000,
           type: 'error',
         });
       });
-  }, []);
+  }, [alert]);
 
   return (
     <Main>
@@ -51,7 +49,7 @@ function Home() {
 
       {canais.map((value) => (
         <Carousel
-          key={`id_${value.titulo}`}
+          key={`id_${value.title}`}
           channel={value}
         />
       ))}
