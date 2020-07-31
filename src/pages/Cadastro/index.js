@@ -108,7 +108,7 @@ function CadastroVideo() {
 
       <p>
         * Se não souber o id do canal que deseja adicionar você pode buscar em
-        <a href="https://commentpicker.com/youtube-channel-id.php" target="_blank"> https://commentpicker.com/youtube-channel-id.php</a>
+        <a href="https://commentpicker.com/youtube-channel-id.php" target="_blank" rel="noopener noreferrer"> https://commentpicker.com/youtube-channel-id.php</a>
       </p>
 
       <form onSubmit={enviar}>
