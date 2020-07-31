@@ -10,7 +10,7 @@ position: relative;
 display: flex;
 align-items: flex-end;
 border-radius: 30px;
-`; 
+`;
 
 export const VideoCardContainer = styled.a`
 
