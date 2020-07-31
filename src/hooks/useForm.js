@@ -57,7 +57,7 @@ function useForm(setReload, alert) {
       link: values.linkCanal,
       cor: values.corCanal,
     };
-    alert.show('Adicionando...', {
+    alert.show('Adicionando e recuperando videos. Aguarde pode demorar...', {
       timeout: 5000,
     });
 

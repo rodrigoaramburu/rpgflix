@@ -26,7 +26,7 @@ function BannerMain() {
     channelRepository.getLastVideo()
       .then((data) => {
         setBannerValores({
-          title: data.titulo,
+          title: data.title,
           description: data.description,
           videoID: data.videoID,
         });
@@ -42,17 +42,19 @@ function BannerMain() {
   // const youTubeID = getYouTubeId();
   const bgUrl = bannerValores.videoID === '' ? BannerInicial : `https://img.youtube.com/vi/${bannerValores.videoID}/maxresdefault.jpg`;
 
+  const description = bannerValores.description.lenght < 100 ? bannerValores.description : `${bannerValores.description.substring(0, 200)}...`;
   return (
     <BannerMainContainer backgroundImage={bgUrl}>
       <ContentAreaContainer>
         <ContentAreaContainer.Item>
 
           <ContentAreaContainer.Title>
-            {bannerValores.titulo}
+            {bannerValores.title}
           </ContentAreaContainer.Title>
 
           <ContentAreaContainer.Description>
-            {bannerValores.description}
+            { description}
+
           </ContentAreaContainer.Description>
         </ContentAreaContainer.Item>
 
