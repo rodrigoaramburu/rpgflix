@@ -39,4 +39,21 @@ export const VideoCardContainer = styled.a`
   &:not(:first-child) {
     margin-left: 20px;
   }
+  position: relative; 
+  span{
+    display:inline-block;
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,.7);
+    font-size: 0.7em;
+    padding:10px 30px 20px 30px;
+    text-align:center;
+    opacity: 0;
+    transition: all .5s;
+  }
+  &:hover span{
+    opacity: 1;
+  }
 `;

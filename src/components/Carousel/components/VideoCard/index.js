@@ -24,7 +24,9 @@ function VideoCard({ title, videoID, cor }) {
         url={image}
         to={url}
         title={title}
-      />
+      >
+        <span>{title}</span>
+      </VideoCardContainer>
 
     </VideoCardContainerParent>
   );
