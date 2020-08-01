@@ -19,7 +19,7 @@ function ErrorPage() {
   return (
     <PageDefault>
       <h1>Página não encontrada</h1>
-      <p>Ao tentar acessar a página você foi puxado para dentro de um portal e foi parar dentro de uma dungeon. Eu não teria muita esperença de encontrar a saida.</p>
+      <p>Ao tentar acessar a página você foi puxado para dentro de um portal e foi parar dentro de uma dungeon. Eu não teria muita esperança de encontrar a saida.</p>
       <IframeWrap>
         <Iframe
           title="Game"
