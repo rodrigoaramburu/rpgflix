@@ -8,6 +8,7 @@ import AlertTemplate from 'react-alert-template-basic';
 import CadastroVideo from './pages/Cadastro';
 import Home from './pages/Home';
 import Video from './pages/Video';
+import ErrorPage from './pages/ErrorPage';
 
 ReactDOM.render(
   <AlertProvider template={AlertTemplate}>
@@ -17,7 +18,7 @@ ReactDOM.render(
         <Route path="/" component={Home} exact />
         <Route path="/cadastro/canal" component={CadastroVideo} />
         <Route path="/video/:idvideo" component={Video} />
-        <Route component={() => (<div>Página 404</div>)} />
+        <Route component={ErrorPage} />
 
       </Switch>
     </BrowserRouter>
