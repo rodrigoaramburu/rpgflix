@@ -23,7 +23,7 @@ function ErrorPage() {
       <IframeWrap>
         <Iframe
           title="Game"
-          src="https:/www.botecodigital.info/react-api/game"
+          src="https://www.botecodigital.info/react-api/game"
           frameBorder="0"
           focus
         />
